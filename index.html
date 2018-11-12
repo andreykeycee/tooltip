@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>tooltip/dropdown</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script>
+      window.onload = function () {
+        Vue.component('label-input', {
+          props: ['label_value','input_name', 'input_value'],
+          template: '<div><label class="prop-label" v-bind:for=input_name>{{label_value}}</label><input class="prop-input" type="number" v-bind:name=input_name v-bind:value=input_value @focus="inputBordering" @blur="makeColorDefault"></div>',
+          methods: {
+            inputBordering: function () {
+              const inputs = document.querySelectorAll('.prop-input')
+              inputs.forEach(function(el) {
+                const isFocused = (document.activeElement === el)
+                if(isFocused) {
+                  el.style.width = ((el.value.length * 8) + 5) + 'px';
+                  el.previousSibling.style.color = '#2db9f0'
+                } else {
+                  el.previousSibling.style.color = '#3c4a5a'
+                }
+              })
+            },
+            makeColorDefault: function () {
+              document.querySelectorAll('.prop-label').forEach(function (el) {
+                el.style.color = '#3c4a5a'
+                el.nextSibling.style.width = 'auto';
+              })
+            }
+          }
+        })
+        const tooltip = new Vue({
+          el: '#tooltip',
+          data: {
+            inputs: [
+              {label_value: 'duration', input_name: 'duration', input_value: 30},
+              {label_value: 'min. votes to pass', input_name: 'votes-to-pass', input_value: 1000},
+              {label_value: 'votes per user', input_name: 'votes-per-user', input_value: 30}
+            ],
+          },
+          methods: {
+            showDropdown: function () {
+              const dropdown = document.querySelector('.dropdown-wrapper')
+              const btn = document.querySelector('.cog-wrapper')
+              if (dropdown.classList.contains('hide')) {
+                dropdown.classList.remove('hide')
+                btn.classList.add('pushed')
+              } else {
+                dropdown.classList.add('hide')
+                btn.classList.remove('pushed')
+              }
+            }
+          }
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <div id="tooltip">
+      <button class="cog-wrapper" @click="showDropdown">
+        <img src="img/cog.png"
+       srcset="img/cog@2x.png 2x,
+               img/cog@3x.png 3x"
+       class="cog">
+      </button>
+      <div class="dropdown-wrapper hide">
+        <div class="dropdown">
+          <span class="bold-label">Manage rules</span>
+          <hr>
+          <form class="" action="" method="">
+            <label-input
+              v-for="input in inputs"
+              v-bind:label_value="input.label_value"
+              v-bind:input_name="input.input_name"
+              v-bind:input_value="input.input_value"
+            ></label-input>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
