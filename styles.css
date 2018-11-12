@@ -56,13 +56,25 @@ body {
 
 }
 .dropdown:before {
+
+  border-style: solid;
+  border-color: transparent transparent #c8d2dd transparent;
+  content: "";
+  display: block;
+  position: absolute;
+  border-width: 0 15px 14px 15px;
+  bottom: 100%;
+  left: 43%;
+  transform: rotate(360deg);
+}
+.dropdown:after {
   border-style: solid;
   border-color: transparent transparent #ffffff transparent;
   content: "";
   display: block;
   position: absolute;
   border-width: 0 15px 14px 15px;
-  bottom: 100%;
+  bottom: 99%;
   left: 43%;
   transform: rotate(360deg);
 }
@@ -101,6 +113,6 @@ body {
   caret-color: #2db9f0;
   border-bottom: 2px solid #2db9f0;
 }
-.hide {
+/* .hide {
   display: none;
-}
+} */
