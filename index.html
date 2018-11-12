@@ -9,7 +9,7 @@
       window.onload = function () {
         Vue.component('label-input', {
           props: ['label_value','input_name', 'input_value'],
-          template: '<div><label class="prop-label" v-bind:for=input_name>{{label_value}}</label><input class="prop-input" type="text" v-bind:name=input_name v-bind:value=input_value  @input="inputBordering" @focus="inputBordering" @blur="makeColorDefault"></div>',
+          template: '<div><label class="prop-label" v-bind:for=input_name>{{label_value}}</label><input class="prop-input" type="text" v-bind:name=input_name v-bind:value=input_value  @input="handler" @focus="inputBordering" @blur="makeColorDefault"></div>',
           methods: {
             inputBordering: function () {
               const inputs = document.querySelectorAll('.prop-input')
@@ -32,15 +32,18 @@
             formatDigis: function () {
               const inputs = document.querySelectorAll('.prop-input')
               inputs.forEach(function (el) {
-                let num = el.value
-                num = Number(num).toLocaleString('ru-RU')
+                let num = parseInt(el.value.replace(/\D/g,''),10)
+                el.value = num.toLocaleString('ru-RU')
               })
+            },
+            handler: function () {
+              this.inputBordering()
+              this.formatDigis()
             }
           },
           mounted: function () {
             this.formatDigis()
           }
-
         })
 
 
